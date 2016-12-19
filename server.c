@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-
 #include "pipe_networking.h"
 
 void process( char * s );
@@ -23,11 +18,11 @@ int main() {
 
 
 
-
 void process( char * s ) {
-
   while ( *s ) {
-    *s = (*s - 'a' + 13) % 26 + 'a';
+    if (*s >= 'a' && *s <= 'z') {
+      *s = (*s - 'a' + 13) % 26 + 'a';
+    }
     s++;
   }
 }

@@ -2,18 +2,21 @@
 
 int client_handshake(int* x){
   //Making the Private Pipe
-  mkfifo("25645", 0644);
-  printf("[CLIENT]: 25645 Pipe made\n");
+  char * randStr;
+  int fd = open("/dev/urandom", O_RDONLY);
+  read(fd, randStr, MESSAGE_BUFFER_SIZE);
+  mkfifo(randStr, 0644);
+  printf("[CLIENT]: Pipe made: %s\n", randStr);
 
   //Opening the Well Known Pipe
   *x = open("WKP", O_WRONLY);
-  write(*x,"25645", 6);
+  write(*x, randStr, 6);
   printf("[CLIENT]: Waiting for connection...\n");
-  int PP = open("25645", O_RDONLY);
+  int PP = open(randStr, O_RDONLY);
   char buffer[MESSAGE_BUFFER_SIZE];
   read(PP, buffer, MESSAGE_BUFFER_SIZE);
   printf("[CLIENT]: Received: %s\n", buffer);
-  int errno = remove("25645");
+  int errno = remove(randStr);
   return PP; 
 }
 
