@@ -1,0 +1,3 @@
+gcc: pipe_networking.c client.c server.c
+	gcc -0 client.out client.c pipe_networking.c
+	gcc -0 server.out server.c pipe_networking.c
